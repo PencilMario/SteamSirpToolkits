@@ -22,29 +22,13 @@ SteamSirP.SearchProcessor = (() => {
      */
     injectStyles() {
       const cssText = `
-        .${Config.UI.BADGE_CLASS} {
-          display: inline-block;
-          float: left;
-          background: #5f7c8f;
-          color: #c7d4dd;
-          font-size: 11px;
-          padding: 3px 4px;
-          margin: 0 4px 0 0;
-          white-space: nowrap;
-          border-radius: 2px;
-          font-weight: 600;
-          letter-spacing: 0.5px;
+        /* 为家庭库游戏的徽章添加展开/缩小动画效果 */
+        .ds_owned_flag {
+          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .${Config.UI.BADGE_CLASS}::before {
-          content: "";
-          display: none;
-        }
-
-        .${Config.UI.BADGE_CLASS} .badge-text {
-          display: inline;
-          opacity: 1;
-          width: auto;
+        .search_result_row:hover .ds_owned_flag {
+          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
       `;
       Utils.injectStyle(Config.UI.STYLE_ID, cssText);
@@ -80,8 +64,10 @@ SteamSirP.SearchProcessor = (() => {
      */
     createBadgeElement() {
       const badge = document.createElement('div');
-      badge.className = Config.UI.BADGE_CLASS;
-      badge.textContent = Config.UI.BADGE_TEXT;
+      // 使用 Steam 原生的 class
+      badge.className = 'ds_flag ds_owned_flag';
+      // 设置文本内容，与原生"在库中"样式保持一致
+      badge.innerHTML = Config.UI.BADGE_TEXT + '&nbsp;&nbsp;';
       return badge;
     }
 
@@ -136,7 +122,7 @@ SteamSirP.SearchProcessor = (() => {
       }
 
       // 检查是否已有徽章
-      if (flagContainer.querySelector(`.${Config.UI.BADGE_CLASS}`)) {
+      if (flagContainer.querySelector('.ds_owned_flag')) {
         return;
       }
 
@@ -149,6 +135,9 @@ SteamSirP.SearchProcessor = (() => {
       } else {
         flagContainer.appendChild(badge);
       }
+
+      // 给搜索结果行添加 ds_flagged 和 ds_owned class，使其变灰
+      resultElement.classList.add('ds_flagged', 'ds_owned');
 
       Utils.log(`✓ 已注入徽章到 appId: ${appId}`);
     }
