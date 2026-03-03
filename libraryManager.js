@@ -69,6 +69,21 @@ SteamSirP.LibraryManager = (() => {
         this.cacheTime = Date.now();
         Utils.log('库数据获取成功');
         Utils.log(`自有应用: ${data.rgOwnedApps.length}，家庭库应用: ${data.rgFamilyGroupApps.length}`);
+
+        // 详细调试日志
+        Utils.log(`📋 自有应用 ID (前20): ${data.rgOwnedApps.slice(0, 20).join(', ')}`);
+        Utils.log(`📋 家庭库应用 ID (前20): ${data.rgFamilyGroupApps.slice(0, 20).join(', ')}`);
+
+        // 检查是否有重复
+        const ownedSet = new Set(data.rgOwnedApps);
+        const familySet = new Set(data.rgFamilyGroupApps);
+        const intersection = [...familySet].filter(id => ownedSet.has(id));
+        if (intersection.length > 0) {
+          Utils.warn(`⚠️ 检测到重复: 以下 ID 同时出现在自有和家庭库中: ${intersection.slice(0, 10).join(', ')}`);
+        } else {
+          Utils.log('✓ 自有应用和家庭库应用没有重复');
+        }
+
         return data;
       } catch (error) {
         Utils.warn('库数据获取错误', error);
