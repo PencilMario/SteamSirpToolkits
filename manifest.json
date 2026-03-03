@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "PP的Steam工具箱",
+  "version": "1.0",
+  "description": "Steam的一些功能细节优化",
+  "permissions": ["scripting", "storage"],
+  "options_page": "options.html",
+  "host_permissions": [
+    "https://steamcommunity.com/*",
+    "https://store.steampowered.com/*",
+    "https://api.steampowered.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://steamcommunity.com/id/*/inventory*",
+        "https://store.steampowered.com/search*"
+      ],
+      "js": [
+        "config.js",
+        "utils.js",
+        "timezoneConverter.js",
+        "libraryManager.js",
+        "searchProcessor.js",
+        "content.js"
+      ],
+      "run_at": "document_end"
+    }
+  ]
+}
