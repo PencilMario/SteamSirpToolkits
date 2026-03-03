@@ -23,59 +23,28 @@ SteamSirP.SearchProcessor = (() => {
     injectStyles() {
       const cssText = `
         .${Config.UI.BADGE_CLASS} {
-          position: absolute;
-          top: 50%;
-          left: 0;
-          transform: translateY(-70%);
-          background: rgb(79, 149, 189);
-          color: #000;
-          border: none;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-          border-radius: 2px;
-          font-size: 10px;
-          font-weight: 400;
-          display: inline-flex;
-          align-items: center;
-          gap: 2px;
-          padding: 1px 1px;
-          min-width: 14px;
-          height: 14px;
-          justify-content: center;
-          cursor: default;
-          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-          overflow: hidden;
+          display: inline-block;
+          float: left;
+          background: #5f7c8f;
+          color: #c7d4dd;
+          font-size: 11px;
+          padding: 3px 4px;
+          margin: 0 4px 0 0;
           white-space: nowrap;
-          z-index: 10;
+          border-radius: 2px;
+          font-weight: 600;
+          letter-spacing: 0.5px;
         }
 
         .${Config.UI.BADGE_CLASS}::before {
-          content: "☑︎";
-          font-size: 9px;
-          flex-shrink: 0;
-          display: inline-block;
+          content: "";
+          display: none;
         }
 
         .${Config.UI.BADGE_CLASS} .badge-text {
-          opacity: 0;
-          width: 0;
-          transition: opacity 0.3s ease, width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .search_result_row:hover .${Config.UI.BADGE_CLASS},
-        .${Config.UI.BADGE_CLASS}:hover {
-          padding: 1px 4px;
-          min-width: auto;
-        }
-
-        .search_result_row:hover .${Config.UI.BADGE_CLASS} .badge-text,
-        .${Config.UI.BADGE_CLASS}:hover .badge-text {
+          display: inline;
           opacity: 1;
           width: auto;
-        }
-
-        .search_result_row .search_result_img {
-          position: relative;
-          overflow: visible;
         }
       `;
       Utils.injectStyle(Config.UI.STYLE_ID, cssText);
@@ -110,14 +79,9 @@ SteamSirP.SearchProcessor = (() => {
      * @returns {HTMLElement} 徽章元素
      */
     createBadgeElement() {
-      const badge = document.createElement('span');
+      const badge = document.createElement('div');
       badge.className = Config.UI.BADGE_CLASS;
-
-      const textSpan = document.createElement('span');
-      textSpan.className = 'badge-text';
-      textSpan.textContent = Config.UI.BADGE_TEXT;
-
-      badge.appendChild(textSpan);
+      badge.textContent = Config.UI.BADGE_TEXT;
       return badge;
     }
 
@@ -148,37 +112,44 @@ SteamSirP.SearchProcessor = (() => {
         return;
       }
 
-      // 查找图片容器 - 徽章应该贴在图片上
-      let imageContainer = resultElement.querySelector('.search_result_img');
+      // 查找标志容器 - 与"在库中"标志相同的位置
+      // 通常在搜索结果行内有一个存放标志的地方
+      let flagContainer = resultElement.querySelector('.ds_flagged');
 
-      if (!imageContainer) {
-        // 备选：查找任何包含图片的容器
-        imageContainer = resultElement.querySelector('img')?.parentElement;
+      if (!flagContainer) {
+        // 备选：查找任何 ds_flag 容器
+        flagContainer = resultElement.querySelector('[class*="ds_flag"]')?.parentElement;
       }
 
-      if (!imageContainer) {
-        // 最后的备选：用第一个 div 容器
-        imageContainer = resultElement.querySelector('div');
+      if (!flagContainer) {
+        // 最后备选：在搜索结果行的开头（作为第一个子元素）
+        // 找到搜索结果行的主容器
+        const resultContent = resultElement.querySelector('.search_result_row_inner') ||
+                             resultElement.querySelector('div[class*="search_result"]') ||
+                             resultElement;
+        flagContainer = resultContent;
       }
 
-      if (!imageContainer) {
-        Utils.log('⚠️ 无法找到图片容器');
+      if (!flagContainer) {
+        Utils.log('⚠️ 无法找到标志容器');
         return;
       }
 
-      // 确保容器支持相对定位
-      if (window.getComputedStyle(imageContainer).position === 'static') {
-        imageContainer.style.position = 'relative';
-      }
-
       // 检查是否已有徽章
-      if (imageContainer.querySelector(`.${Config.UI.BADGE_CLASS}`)) {
+      if (flagContainer.querySelector(`.${Config.UI.BADGE_CLASS}`)) {
         return;
       }
 
       // 创建并注入徽章
       const badge = this.createBadgeElement();
-      imageContainer.appendChild(badge);
+
+      // 在容器的开头插入徽章
+      if (flagContainer.firstChild) {
+        flagContainer.insertBefore(badge, flagContainer.firstChild);
+      } else {
+        flagContainer.appendChild(badge);
+      }
+
       Utils.log(`✓ 已注入徽章到 appId: ${appId}`);
     }
 
