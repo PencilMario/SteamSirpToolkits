@@ -171,6 +171,13 @@ SteamSirP.Utils = (() => {
     if (url.includes('/inventory')) {
       return 'inventory';
     }
+    // 检测首页 - 包含多个可能的首页 URL
+    if (url === 'https://store.steampowered.com/' || url === 'https://store.steampowered.com' ||
+        !url.includes('/search') && !url.includes('/inventory') && url.includes('store.steampowered.com')) {
+      if (!url.includes('/app/') && !url.includes('/bundle/') && !url.includes('/sub/')) {
+        return 'home';
+      }
+    }
     return 'unknown';
   }
 

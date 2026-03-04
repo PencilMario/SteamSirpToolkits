@@ -10,8 +10,10 @@ window.SteamSirP = window.SteamSirP || {};
   const Utils = window.SteamSirP.Utils;
   const TimezoneConverter = window.SteamSirP.TimezoneConverter;
   const SearchProcessorClass = window.SteamSirP.SearchProcessor.SearchProcessor;
+  const TopSellersProcessorClass = window.SteamSirP.TopSellersProcessor.TopSellersProcessor;
 
   let searchProcessor = null;
+  let topSellersProcessor = null;
   let observer = null;
   let lastProcessTime = 0;
   const PROCESS_INTERVAL = 2000; // 2秒内只处理一次
@@ -34,6 +36,16 @@ window.SteamSirP = window.SteamSirP || {};
   }
 
   /**
+   * 初始化热销商品处理器
+   */
+  async function initTopSellersProcessor() {
+    if (!topSellersProcessor) {
+      topSellersProcessor = new TopSellersProcessorClass();
+    }
+    await topSellersProcessor.processTopSellers();
+  }
+
+  /**
    * 处理页面加载
    */
   async function processPageInitial() {
@@ -49,6 +61,11 @@ window.SteamSirP = window.SteamSirP || {};
       // 处理搜索结果页面的家庭库标记
       if (pageType === 'search') {
         await initSearchProcessor();
+      }
+
+      // 处理首页热销商品
+      if (pageType === 'home') {
+        await initTopSellersProcessor();
       }
     } catch (error) {
       Utils.warn('页面初始化出错', error);
@@ -77,6 +94,11 @@ window.SteamSirP = window.SteamSirP || {};
       // 处理搜索结果页面的家庭库标记
       if (pageType === 'search') {
         await initSearchProcessor();
+      }
+
+      // 处理首页热销商品
+      if (pageType === 'home') {
+        await initTopSellersProcessor();
       }
     } catch (error) {
       Utils.warn('DOM变化处理出错', error);
@@ -129,3 +151,4 @@ window.SteamSirP = window.SteamSirP || {};
   // 启动应用
   start();
 })();
+

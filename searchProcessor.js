@@ -35,6 +35,17 @@ SteamSirP.SearchProcessor = (() => {
         .search_result_row.hide-family-shared {
           display: none !important;
         }
+
+        /* 禁用家庭库游戏的模糊/灰显效果，保持原始外观 */
+        .search_result_row.steamsr-family-shared {
+          filter: none !important;
+          opacity: 1 !important;
+        }
+
+        .search_result_row.steamsr-family-shared img {
+          filter: none !important;
+          opacity: 1 !important;
+        }
       `;
       Utils.injectStyle(Config.UI.STYLE_ID, cssText);
     }

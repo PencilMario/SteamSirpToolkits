@@ -42,53 +42,6 @@
       font-size: 14px;
     }
 
-    .form-group {
-      margin-bottom: 25px;
-    }
-
-    label {
-      display: block;
-      color: #333;
-      font-weight: 600;
-      margin-bottom: 8px;
-      font-size: 14px;
-    }
-
-    input[type="text"],
-    input[type="password"] {
-      width: 100%;
-      padding: 12px 15px;
-      border: 2px solid #e0e0e0;
-      border-radius: 6px;
-      font-size: 14px;
-      transition: border-color 0.3s;
-      font-family: 'Courier New', monospace;
-    }
-
-    input[type="text"]:focus,
-    input[type="password"]:focus {
-      outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-
-    .help-text {
-      color: #999;
-      font-size: 12px;
-      margin-top: 6px;
-      line-height: 1.5;
-    }
-
-    .help-link {
-      color: #667eea;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .help-link:hover {
-      text-decoration: underline;
-    }
-
     .button-group {
       display: flex;
       gap: 10px;
@@ -120,16 +73,6 @@
       transform: translateY(0);
     }
 
-    .btn-reset {
-      background: #f5f5f5;
-      color: #333;
-      border: 2px solid #e0e0e0;
-    }
-
-    .btn-reset:hover {
-      background: #efefef;
-    }
-
     .status {
       margin-top: 15px;
       padding: 12px 15px;
@@ -152,57 +95,6 @@
       display: block;
     }
 
-    .info-box {
-      background: #f0f4ff;
-      border-left: 4px solid #667eea;
-      padding: 15px;
-      border-radius: 4px;
-      margin-bottom: 25px;
-      font-size: 13px;
-      color: #333;
-      line-height: 1.6;
-    }
-
-    .info-box strong {
-      color: #667eea;
-    }
-
-    hr {
-      border: none;
-      border-top: 1px solid #e0e0e0;
-      margin: 30px 0;
-    }
-
-    .section-title {
-      color: #333;
-      font-weight: 600;
-      margin-bottom: 15px;
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .feature-list {
-      list-style: none;
-      padding: 0;
-      margin-bottom: 25px;
-    }
-
-    .feature-list li {
-      padding: 8px 0;
-      color: #666;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-    }
-
-    .feature-list li:before {
-      content: "✓";
-      color: #667eea;
-      font-weight: bold;
-      margin-right: 10px;
-      font-size: 16px;
-    }
 
     .checkbox-group {
       display: flex;
@@ -232,35 +124,7 @@
     <h1>⚙️ 设置</h1>
     <p class="subtitle">PP的Steam工具箱</p>
 
-    <div class="info-box">
-      <strong>🔑 需要 Steam Web API Key</strong><br>
-      为了识别家庭库中的游戏，您需要提供您的 Steam Web API Key。
-      <a href="https://steamcommunity.com/dev/apikey" class="help-link" target="_blank">点击这里获取</a>
-    </div>
-
     <form id="settingsForm">
-      <div class="form-group">
-        <label for="apiKey">Steam Web API Key</label>
-        <input
-          type="password"
-          id="apiKey"
-          placeholder="输入您的 API Key"
-          autocomplete="off"
-        >
-        <div class="help-text">
-          您的 API Key 仅存储在本地，永远不会发送到任何服务器。
-          <br><br>
-          <strong>如何获取：</strong>
-          <ol style="margin-left: 20px; margin-top: 8px;">
-            <li>访问 <a href="https://steamcommunity.com/dev/apikey" class="help-link" target="_blank">Steam API 注册页面</a></li>
-            <li>登录您的 Steam 账户</li>
-            <li>输入任意域名（如 localhost）</li>
-            <li>同意 Terms of Use</li>
-            <li>复制您的 API Key</li>
-          </ol>
-        </div>
-      </div>
-
       <div class="checkbox-group">
         <input type="checkbox" id="showDebugPanel" />
         <label for="showDebugPanel" class="checkbox-label">显示调试窗口</label>
@@ -268,22 +132,10 @@
 
       <div class="button-group">
         <button type="submit" class="btn-save">保存设置</button>
-        <button type="button" class="btn-reset" id="clearBtn">清除数据</button>
       </div>
 
       <div class="status" id="status"></div>
     </form>
-
-    <hr>
-
-    <div>
-      <h3 class="section-title">功能</h3>
-      <ul class="feature-list">
-        <li>在搜索结果中标记家庭库游戏</li>
-        <li>转换库存页面的 UTC 时间为本地时间</li>
-        <li>离线运行 - 数据不上传</li>
-      </ul>
-    </div>
   </div>
 
   <script src="options.js"></script>

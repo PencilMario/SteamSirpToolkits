@@ -14,7 +14,8 @@
     {
       "matches": [
         "https://steamcommunity.com/id/*/inventory*",
-        "https://store.steampowered.com/search*"
+        "https://store.steampowered.com/search*",
+        "https://store.steampowered.com/"
       ],
       "js": [
         "config.js",
@@ -22,6 +23,7 @@
         "timezoneConverter.js",
         "libraryManager.js",
         "searchProcessor.js",
+        "topSellersProcessor.js",
         "content.js"
       ],
       "run_at": "document_end"
