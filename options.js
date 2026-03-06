@@ -1,6 +1,7 @@
 const form = document.getElementById('settingsForm');
 const statusDiv = document.getElementById('status');
 const showDebugPanelCheckbox = document.getElementById('showDebugPanel');
+const disableFamilyLibraryPurchaseCheckbox = document.getElementById('disableFamilyLibraryPurchase');
 
 function showStatus(message, type = 'success') {
   statusDiv.textContent = message;
@@ -14,8 +15,9 @@ function showStatus(message, type = 'success') {
 }
 
 function loadSettings() {
-  chrome.storage.sync.get(['showDebugPanel'], (result) => {
+  chrome.storage.sync.get(['showDebugPanel', 'disableFamilyLibraryPurchase'], (result) => {
     showDebugPanelCheckbox.checked = result.showDebugPanel ?? false;
+    disableFamilyLibraryPurchaseCheckbox.checked = result.disableFamilyLibraryPurchase ?? true;
   });
 }
 
@@ -23,7 +25,8 @@ form.addEventListener('submit', (e) => {
   e.preventDefault();
 
   chrome.storage.sync.set({
-    showDebugPanel: showDebugPanelCheckbox.checked
+    showDebugPanel: showDebugPanelCheckbox.checked,
+    disableFamilyLibraryPurchase: disableFamilyLibraryPurchaseCheckbox.checked
   }, () => {
     showStatus('✅ 设置已保存！');
   });

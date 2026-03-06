@@ -15,7 +15,8 @@
       "matches": [
         "https://steamcommunity.com/id/*/inventory*",
         "https://store.steampowered.com/search*",
-        "https://store.steampowered.com/"
+        "https://store.steampowered.com/",
+        "https://store.steampowered.com/app/*"
       ],
       "js": [
         "config.js",
@@ -24,6 +25,7 @@
         "libraryManager.js",
         "searchProcessor.js",
         "topSellersProcessor.js",
+        "appPageProcessor.js",
         "content.js"
       ],
       "run_at": "document_end"

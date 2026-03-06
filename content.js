@@ -11,9 +11,11 @@ window.SteamSirP = window.SteamSirP || {};
   const TimezoneConverter = window.SteamSirP.TimezoneConverter;
   const SearchProcessorClass = window.SteamSirP.SearchProcessor.SearchProcessor;
   const TopSellersProcessorClass = window.SteamSirP.TopSellersProcessor.TopSellersProcessor;
+  const AppPageProcessorClass = window.SteamSirP.AppPageProcessor.AppPageProcessor;
 
   let searchProcessor = null;
   let topSellersProcessor = null;
+  let appPageProcessor = null;
   let observer = null;
   let lastProcessTime = 0;
   const PROCESS_INTERVAL = 2000; // 2秒内只处理一次
@@ -46,6 +48,18 @@ window.SteamSirP = window.SteamSirP || {};
   }
 
   /**
+   * 初始化应用页面处理器
+   */
+  async function initAppPageProcessor() {
+    if (!appPageProcessor) {
+      appPageProcessor = new AppPageProcessorClass();
+      // 保存实例供 HTML 事件处理使用
+      window.SteamSirP.AppPageProcessorInstance = appPageProcessor;
+    }
+    await appPageProcessor.processAppPage();
+  }
+
+  /**
    * 处理页面加载
    */
   async function processPageInitial() {
@@ -66,6 +80,11 @@ window.SteamSirP = window.SteamSirP || {};
       // 处理首页热销商品
       if (pageType === 'home') {
         await initTopSellersProcessor();
+      }
+
+      // 处理应用页面
+      if (pageType === 'app') {
+        await initAppPageProcessor();
       }
     } catch (error) {
       Utils.warn('页面初始化出错', error);
@@ -99,6 +118,11 @@ window.SteamSirP = window.SteamSirP || {};
       // 处理首页热销商品
       if (pageType === 'home') {
         await initTopSellersProcessor();
+      }
+
+      // 处理应用页面
+      if (pageType === 'app') {
+        await initAppPageProcessor();
       }
     } catch (error) {
       Utils.warn('DOM变化处理出错', error);
