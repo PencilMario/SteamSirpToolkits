@@ -117,6 +117,49 @@
       cursor: pointer;
       user-select: none;
     }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .input-label {
+      display: block;
+      color: #333;
+      font-weight: 500;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    input[type="password"]:focus,
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .help-text {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .help-text a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    .help-text a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -133,6 +176,12 @@
       <div class="checkbox-group">
         <input type="checkbox" id="disableFamilyLibraryPurchase" />
         <label for="disableFamilyLibraryPurchase" class="checkbox-label">禁用家庭库游戏的购买按钮</label>
+      </div>
+
+      <div class="form-group">
+        <label for="steamApiKey" class="input-label">Steam Web API Key</label>
+        <input type="password" id="steamApiKey" placeholder="输入你的 Steam Web API Key" />
+        <p class="help-text">用于获取家庭成员游戏数量。<a href="https://steamcommunity.com/dev/apikey" target="_blank">点击这里获取</a></p>
       </div>
 
       <div class="button-group">

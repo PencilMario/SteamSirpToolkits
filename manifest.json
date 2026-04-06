@@ -16,7 +16,8 @@
         "https://steamcommunity.com/id/*/inventory*",
         "https://store.steampowered.com/search*",
         "https://store.steampowered.com/",
-        "https://store.steampowered.com/app/*"
+        "https://store.steampowered.com/app/*",
+        "https://store.steampowered.com/account/familymanagement*"
       ],
       "js": [
         "config.js",
@@ -26,6 +27,7 @@
         "searchProcessor.js",
         "topSellersProcessor.js",
         "appPageProcessor.js",
+        "familyManagementProcessor.js",
         "content.js"
       ],
       "run_at": "document_end"

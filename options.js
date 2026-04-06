@@ -2,6 +2,7 @@ const form = document.getElementById('settingsForm');
 const statusDiv = document.getElementById('status');
 const showDebugPanelCheckbox = document.getElementById('showDebugPanel');
 const disableFamilyLibraryPurchaseCheckbox = document.getElementById('disableFamilyLibraryPurchase');
+const steamApiKeyInput = document.getElementById('steamApiKey');
 
 function showStatus(message, type = 'success') {
   statusDiv.textContent = message;
@@ -15,9 +16,10 @@ function showStatus(message, type = 'success') {
 }
 
 function loadSettings() {
-  chrome.storage.sync.get(['showDebugPanel', 'disableFamilyLibraryPurchase'], (result) => {
+  chrome.storage.sync.get(['showDebugPanel', 'disableFamilyLibraryPurchase', 'steamApiKey'], (result) => {
     showDebugPanelCheckbox.checked = result.showDebugPanel ?? false;
     disableFamilyLibraryPurchaseCheckbox.checked = result.disableFamilyLibraryPurchase ?? true;
+    steamApiKeyInput.value = result.steamApiKey ?? '';
   });
 }
 
@@ -26,7 +28,8 @@ form.addEventListener('submit', (e) => {
 
   chrome.storage.sync.set({
     showDebugPanel: showDebugPanelCheckbox.checked,
-    disableFamilyLibraryPurchase: disableFamilyLibraryPurchaseCheckbox.checked
+    disableFamilyLibraryPurchase: disableFamilyLibraryPurchaseCheckbox.checked,
+    steamApiKey: steamApiKeyInput.value.trim()
   }, () => {
     showStatus('✅ 设置已保存！');
   });
